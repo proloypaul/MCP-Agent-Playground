@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+.env.example
+weather-mcp-server/.env.example
+weather-agent/.env.example
+weather-mcp-server/node_modules
+weather-mcp-server/dist
+weather-agent/node_modules
