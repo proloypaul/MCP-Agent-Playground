@@ -6,6 +6,7 @@ import {
   ListToolsRequestSchema,
   McpError,
 } from "@modelcontextprotocol/sdk/types.js";
+import { getWeather } from "./weather.js";
 
 // 1. Initialize the MCP Server
 const server = new Server(
@@ -59,23 +60,31 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   const city = args.city;
 
-  // 4. Return Static Dummy Data (For Milestone 2)
-  const weatherData = {
-    city: city,
-    temperature: 29,
-    humidity: 78,
-    condition: "Cloudy",
-    windSpeed: 4.2,
-  };
+  // 4. Return Real Weather Data (Milestone 3)
+  try {
+    const weatherData = await getWeather(city);
 
-  return {
-    content: [
-      {
-        type: "text",
-        text: JSON.stringify(weatherData, null, 2), // Return structured data as string
-      },
-    ],
-  };
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(weatherData, null, 2),
+        },
+      ],
+    };
+  } catch (error: any) {
+    // If the API call fails, return the error gracefully inside the tool response
+    // so the LLM knows what went wrong and can tell the user.
+    return {
+      isError: true, // Standard MCP way to flag a tool failure
+      content: [
+        {
+          type: "text",
+          text: `Error: ${error.message}`,
+        },
+      ],
+    };
+  }
 });
 
 // 5. Start the Server with stdio transport
