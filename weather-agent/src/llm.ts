@@ -1,16 +1,8 @@
 import { GoogleGenerativeAI, ChatSession, Tool } from "@google/generative-ai";
-import dotenv from "dotenv";
+import { config } from "./config.js";
 
-// Load environment variables so we can access GEMINI_API_KEY
-dotenv.config();
-
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("Warning: GEMINI_API_KEY is not set in the Agent's environment variables.");
-}
-
-// Initialize the Gemini SDK
-const genAI = new GoogleGenerativeAI(apiKey || "");
+// Initialize the Gemini SDK using the API key from config
+const genAI = new GoogleGenerativeAI(config.geminiApiKey);
 
 /**
  * Initializes a new chat session with the Gemini model.
@@ -24,7 +16,7 @@ export function createChatSession(tools: Tool[] = []): ChatSession {
     systemInstruction: 
       "You are a helpful AI assistant. If the user asks for weather, " +
       "always use the provided weather tool to get accurate data. " +
-      "Never guess the weather.",
+      "Never guess the weather. Format your output clearly.",
     // We attach the tools to the model here
     tools: tools.length > 0 ? tools : undefined,
   });

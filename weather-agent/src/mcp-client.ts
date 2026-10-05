@@ -32,8 +32,6 @@ export async function listAvailableTools() {
 export async function callWeatherTool(city: string) {
   if (!mcpClient) throw new Error("MCP Client not connected.");
   
-  console.log(`\n> Calling get_weather tool for city: ${city}...`);
-  
   // Notice how we use the exact method and arguments we saw in Milestone 4!
   const result = await mcpClient.callTool({
     name: "get_weather",

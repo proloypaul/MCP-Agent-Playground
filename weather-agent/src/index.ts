@@ -1,37 +1,27 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { connectToServer, listAvailableTools, callWeatherTool } from "./mcp-client.js";
+import { connectToServer } from "./mcp-client.js";
+import { runAgentLoop } from "./agent.js";
 
-// Calculate absolute path to the server's entry point
-// This assumes weather-mcp-server is built and located adjacent to weather-agent
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SERVER_PATH = path.resolve(__dirname, "../../weather-mcp-server/dist/index.js");
 
 async function main() {
   try {
-    console.log("--- Starting MCP Client Test (No LLM yet) ---");
+    console.log("Initializing Agent System...");
     
-    // 1. Connect
+    // 1. Boot up the MCP Client and connect to the Server
     await connectToServer(SERVER_PATH);
 
-    // 2. Discover Tools
-    const tools = await listAvailableTools();
-    console.log("\nDiscovered tools from server:");
-    console.log(JSON.stringify(tools, null, 2));
+    // 2. Test a question that requires the weather tool
+    await runAgentLoop("What's the weather in Dhaka?");
 
-    // 3. Call Tool (Test: Dhaka)
-    const result = await callWeatherTool("Dhaka");
-    console.log("\nTool Result (Dhaka):");
-    console.log(JSON.stringify(result, null, 2));
-    
-    // 4. Test an error case
-    const errorResult = await callWeatherTool("UnknownCity123987");
-    console.log("\nTool Error Result (Unknown City):");
-    console.log(JSON.stringify(errorResult, null, 2));
+    // 3. Test a question that does NOT require the tool
+    await runAgentLoop("What is Node.js in one simple sentence?");
 
   } catch (error) {
-    console.error("\nAgent Error:", error);
+    console.error("Agent System Error:", error);
   } finally {
     process.exit(0);
   }
