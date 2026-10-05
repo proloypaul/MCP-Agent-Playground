@@ -10,6 +10,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@modelcontextprotocol/sdk": "^1.0.1",
     "dotenv": "^16.4.5"
   },
