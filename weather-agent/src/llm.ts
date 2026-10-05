@@ -9,9 +9,9 @@ const genAI = new GoogleGenerativeAI(config.geminiApiKey);
  * @param tools Array of tools (in Gemini's format) the LLM is allowed to use.
  */
 export function createChatSession(tools: Tool[] = []): ChatSession {
-  // We use gemini-2.5-flash as it is fast and supports function/tool calling very well
+  // We use gemini-3.8-flash as recommended by the API
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
+    model: "gemini-3.8-flash",
     // System instructions define the agent's core persona and rules
     systemInstruction: 
       "You are a helpful AI assistant. If the user asks for weather, " +

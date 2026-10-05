@@ -31,9 +31,6 @@ function mcpToGeminiTools(mcpTools: any[]): Tool[] {
 }
 
 export async function runAgentLoop(question: string) {
-  console.log(`\n=================================`);
-  console.log(`You: ${question}`);
-  
   // 1. Get MCP Tools and convert them to Gemini format
   const mcpTools = await listAvailableTools();
   const geminiTools = mcpToGeminiTools(mcpTools);
@@ -67,17 +64,11 @@ export async function runAgentLoop(question: string) {
       console.log(`[Agent Loop]: Tool execution complete. Sending result back to LLM...`);
 
       // 6. Send the result back to the LLM so it can resume its thought process
-      response = await chat.sendMessage([
-        {
-          functionResponse: {
-            name: call.name,
-            response: { 
-               result: textResult, 
-               isError: isError 
-            }
-          }
-        }
-      ]);
+      // Note: We send this as a regular text message because some newer Gemini models 
+      // have updated their function role requirements.
+      response = await chat.sendMessage(
+        `The tool ${call.name} returned this result:\n${textResult}\n\nPlease use this information to answer the user's original question.`
+      );
     } else {
       console.error("[Agent Loop]: Unknown tool requested by LLM.");
       break;
