@@ -129,6 +129,17 @@ MCP-Agent-Playground/
     └── package.json
 ```
 
+## 🔮 Future Roadmap / Extensibility
+
+Currently, the `mcp-server` only implements the OpenWeather API (`get_weather` tool). However, thanks to the standardized **Model Context Protocol**, this architecture is highly extensible! 
+
+In the future, we plan to improve the Agent by integrating more tools into the MCP Server, such as:
+- **Web Search Tools** (to answer general knowledge questions)
+- **Database Query Tools** (to fetch internal user data)
+- **File System Tools** (to read and analyze local files)
+
+Because the Agent dynamically discovers tools at runtime, adding a new tool to the `mcp-server` will instantly allow the LangChain Agent to answer entirely new categories of questions without rewriting the orchestration logic!
+
 ---
 
 ## 🤝 Contributing
