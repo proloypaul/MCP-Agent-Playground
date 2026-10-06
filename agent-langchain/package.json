@@ -1,5 +1,5 @@
 {
-  "name": "weather-agent-langchain",
+  "name": "agent-langchain",
   "version": "1.0.0",
   "description": "MCP Weather Agent - LangChain Implementation",
   "main": "dist/index.js",

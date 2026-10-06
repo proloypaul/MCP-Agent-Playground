@@ -2,14 +2,14 @@ import path from "path";
 import { fileURLToPath } from "url";
 import * as readline from "readline";
 import { connectToServer } from "./mcp-client.js";
-import { runLangChainAgentLoop } from "./agent-langchain.js";
+import { runLangChainAgentLoop } from "./langchain-agent.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Shared MCP Server: We point to the SAME server built in Milestone 2-3!
 // The LangChain version doesn't need a different MCP Server.
-const SERVER_PATH = path.resolve(__dirname, "../../weather-mcp-server/dist/index.js");
+const SERVER_PATH = path.resolve(__dirname, "../../mcp-server/dist/index.js");
 
 const rl = readline.createInterface({
   input: process.stdin,

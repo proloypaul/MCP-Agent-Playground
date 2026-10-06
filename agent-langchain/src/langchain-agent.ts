@@ -75,7 +75,7 @@ const agent = createReactAgent({
 // LangChain:     We manage history explicitly as an array of BaseMessage objects.
 //                This gives full control — we can inspect, trim, or save history.
 // ─────────────────────────────────────────────────────────────────────────────
-const conversationHistory: BaseMessage[] = [];
+const conversationHistory: any[] = [];
 
 export async function runLangChainAgentLoop(question: string): Promise<string> {
   // Add the new user message to history
